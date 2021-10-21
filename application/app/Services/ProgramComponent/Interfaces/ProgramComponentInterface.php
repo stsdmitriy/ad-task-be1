@@ -7,21 +7,21 @@ interface ProgramComponentInterface
     /**
      * Build content of component.
      *
-     * @return mixed
+     * @return ProgramComponentInterface
      */
-    public function build();
+    public function build(): ProgramComponentInterface;
 
     /**
      * Save the component file.
      *
-     * @return mixed
+     * @return string Name of the saved file
      */
-    public function save();
+    public function save(): string;
 
     /**
-     * Get the component template.
+     * Get the filename.
      *
      * @return string
      */
-    public function getTemplate(): string;
+    public function getFilename(): string;
 }

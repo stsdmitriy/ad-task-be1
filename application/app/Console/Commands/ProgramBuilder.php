@@ -4,9 +4,17 @@ namespace App\Console\Commands;
 
 use App\Services\ProgramComponent\Interfaces\BuilderInterface;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Validator;
 
 class ProgramBuilder extends Command
 {
+    /**
+     * Default number of program modules.
+     *
+     * @var int
+     */
+    const DEFAULT_MODULES = 1;
+
     /**
      * The name and signature of the console command.
      *
@@ -41,10 +49,30 @@ class ProgramBuilder extends Command
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $this->programBuilder->build();
+        $modules = $this->argument('modules');
+
+        $validator = Validator::make([
+            'modules' => $modules,
+        ], [
+            'modules' => ['nullable', 'numeric'],
+        ]);
+
+        if ($validator->fails()) {
+            foreach ($validator->errors()->all() as $error) {
+                $this->error($error);
+            }
+
+            return 1;
+        }
+
+        $this->programBuilder->forModules(
+            $this->argument('modules') ?? self::DEFAULT_MODULES
+        )->build();
+
+        return 0;
     }
 }

@@ -4,7 +4,7 @@ namespace App\Services\ProgramComponent\Modules;
 
 use App\Services\ProgramComponent\Interfaces\ProgramModuleInterface;
 
-class JsOnReadyModule implements ProgramModuleInterface
+class HtmlModule implements ProgramModuleInterface
 {
     /**
      * Get a content from the module.
@@ -15,6 +15,6 @@ class JsOnReadyModule implements ProgramModuleInterface
      */
     public function getContent(string $moduleName): string
     {
-        return "console.log('onReady {$moduleName}');" . PHP_EOL;
+        return '<div class="' . $moduleName . '"></div>' . PHP_EOL . PHP_EOL;
     }
 }

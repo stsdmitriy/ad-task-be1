@@ -3,21 +3,34 @@
 namespace App\Services\ProgramComponent\Components;
 
 use App\Services\ProgramComponent\Interfaces\ProgramComponentInterface;
+use App\Services\ProgramComponent\Modules\CssModule;
 
-class CssComponent implements ProgramComponentInterface
+class CssComponent extends BaseComponent
 {
-    public function build()
-    {
-        //
-    }
+    /**
+     * Filename.
+     *
+     * @var string
+     */
+    protected $filename = 'app.css';
 
-    public function save()
+    /**
+     * Build component content.
+     *
+     * @return ProgramComponentInterface
+     */
+    public function build(): ProgramComponentInterface
     {
-        //
-    }
+        $cssContent = '';
 
-    public function getTemplate(): string
-    {
-        //
+        for ($number = 1; $number <= $this->getNumberOfModules(); $number++) {
+            $cssContent .= (new CssModule())->getContent($this->getModuleFilename($number));
+        }
+
+        if($cssContent) {
+            $this->setContent($cssContent);
+        }
+
+        return $this;
     }
 }
